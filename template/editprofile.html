@@ -1,0 +1,1065 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <style>
+
+    #error-message {
+      display: none; /* Hide the error message by default */
+      /* Add your desired styles here */
+  }
+  
+    .my-card {
+      margin-bottom: 40px; /* Adjust the value as needed */
+  }
+  .my-card {
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .my-card:hover {
+    transform: scale(1.05); /* Increase the size on hover */
+    z-index: 1; /* Bring the card to the top layer */
+  }
+  
+  .card-title {
+    color: rgb(8, 248, 8); /* Set text color to green */
+    font-weight: bold; /* Make the text bold */
+  }
+    .profile-pic-wrapper {
+      position: relative;
+      width: 200px; /* Set the width and height to match your image size */
+      height: 200px;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 50%;
+  }
+  
+  .profile-pic-container {
+      position: relative;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+  }
+  
+  .profile-pic-container img {
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      object-fit: cover;
+  }
+  
+  .file-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+  }
+  
+  .profile-pic-wrapper:hover .file-overlay {
+      opacity: 1;
+  }
+  
+  .file {
+      color: #fff;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+  
+  .file:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+
+
+	.frm_submit_block h3 {
+		position: relative;
+		display: inline-block;
+		padding-bottom: 5px;
+		border-bottom: 2px solid green;
+		transition: border-bottom-color 0.3s;
+		cursor: pointer;
+	}
+	
+	.frm_submit_block h3:hover {
+		border-bottom-color: darkgreen;
+	}
+	.intro.intro-carousel {
+		margin-bottom: 0; /* Set the desired bottom margin value */
+	  }
+
+ 
+    .label-with-margin {
+      margin-top: 30px; /* Add top margin to the label */
+    }
+    
+    .button-label {
+      margin-left: 40px; /* Add space between label and button */
+      margin-top: 30px; /* Add top margin to the button */
+    }
+    
+
+    .custom-btn {
+      border-radius: 20px; /* Curved border */
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      position: relative; /* Required for pseudo-element */
+    }
+    
+    .custom-btn::after {
+      content: attr(data-text); /* Display the button text */
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      animation: blink 1s infinite; /* Blink animation */
+      visibility: hidden; /* Hide original text */
+    }
+    
+    @keyframes blink {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+
+.success-btn {
+  background-color: #28a745; /* Success green color */
+}
+
+</style>
+  <title>FindMyNest</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Property Search Section ======= -->
+  <div class="click-closed"></div>
+  <!--/ Form Search Star /-->
+  <div class="box-collapse">
+    <div class="title-box-d">
+      <h3 class="title-d">Search Property</h3>
+    </div>
+    <span class="close-box-collapse right-boxed bi bi-x"></span>
+    <div class="box-collapse-wrap form">
+      <form class="form-a">
+        <div class="row">
+          <div class="col-md-12 mb-2">
+            <div class="form-group">
+              <label class="pb-2" for="Type">Keyword</label>
+              <input type="text" class="form-control form-control-lg form-control-a" placeholder="Keyword">
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group mt-3">
+              <label class="pb-2" for="Type">Type</label>
+              <select class="form-control form-select form-control-a" id="Type">
+                <option>All Type</option>
+                <option>For Rent</option>
+                <option>For Sale</option>
+                <option>Open House</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group mt-3">
+              <label class="pb-2" for="city">City</label>
+              <select class="form-control form-select form-control-a" id="city">
+                <option>All City</option>
+                <option>Alabama</option>
+                <option>Arizona</option>
+                <option>California</option>
+                <option>Colorado</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group mt-3">
+              <label class="pb-2" for="bedrooms">Bedrooms</label>
+              <select class="form-control form-select form-control-a" id="bedrooms">
+                <option>Any</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group mt-3">
+              <label class="pb-2" for="garages">Garages</label>
+              <select class="form-control form-select form-control-a" id="garages">
+                <option>Any</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+                <option>04</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group mt-3">
+              <label class="pb-2" for="bathrooms">Bathrooms</label>
+              <select class="form-control form-select form-control-a" id="bathrooms">
+                <option>Any</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group mt-3">
+              <label class="pb-2" for="price">Min Price</label>
+              <select class="form-control form-select form-control-a" id="price">
+                <option>Unlimite</option>
+                <option>$50,000</option>
+                <option>$100,000</option>
+                <option>$150,000</option>
+                <option>$200,000</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="submit" class="btn btn-b">Search Property</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div><!-- End Property Search Section -->>
+
+  <!-- ======= Header/Navbar ======= -->
+  <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+    <div class="container">
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a class="navbar-brand text-brand" href="index.html">FindM<span class="color-b">yNest</span></a>
+
+      <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'index' %}">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'about' %}">About</a>
+          </li>
+
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'propertylist' %}">Property</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Welcome,  {{ user.username }}!</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item " href="{% url 'logout' %}">Logout</a>
+            </div>
+          </li>
+
+
+          {%  elif  user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Property</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'propertylist' %}">All Property</a>
+                {% for property_type in property_types %}
+                    <a class="dropdown-item" href="{% url 'property_list_by_type' property_type=property_type %}">{{ property_type }}</a>
+                {% endfor %}
+            </div>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'addproperty' %}">Post Property</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Welcome,  {{ user.username }}!</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item " href="{% url 'logout' %}">Logout</a>
+              <a class="dropdown-item active " href="{% url 'editprofile' %}">Profile</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link " href="contact.html">Welcome, guest!</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="/register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'login' %}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+
+      </div>
+
+      <!-- <button type="button" class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
+        <i class="bi bi-search"></i>
+      </button> -->
+
+    </div>
+  </nav><!-- End Header/Navbar -->
+
+  <!-- ======= Intro Section ======= -->
+  <div class="intro intro-carousel swiper position-relative"style="height: 450px;">
+
+    <div class="swiper-wrapper">
+      <div class="swiper-slide carousel-item-a intro-item bg-image" style="background-image: url({% static 'assets/img/login2.jpg' %}); height: 450px;">
+        <div class="overlay overlay-a"></div>
+        <div class="intro-content display-table">
+          <div class="table-cell">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="intro-body">
+                    <p class="intro-title-top">FindMyNest
+                      <br>Your navigator in realestate excellences
+                    </p>
+                    <h1 class="intro-title mb-4 ">
+                      <span class="color-b">Hi,{{ user.username }}</span> 
+                      <br>
+                    </h1>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+	</div>
+  </div>
+  {% if request.GET.alert %}
+<div id="error-message" class="alert alert-danger">
+    {{ request.GET.alert }}
+</div>
+{% endif %}
+  <form method="POST" id="save" enctype="multipart/form-data">
+    {% csrf_token %}
+    <section class="gray pt-5 pb-5">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-md-8">
+                    <div class="dashboard-body">
+                        <div class="dashboard-wraper">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="submit-page px-0">
+                                        <div class="form-group col-md-12 text-center">
+                                            <label class="mt-2 mb-1">Profile Photo</label>
+                                            <div class="profile-photo">
+                                                <center>
+                                                    <div class="profile-pic-wrapper mt-3">
+                                                        <div class="profile-pic-container">
+                                                            {% if user_profile.profile_pic %}
+                                                                <img class="rounded-circle" src="{{ user_profile.profile_pic.url }}" alt="Profile Picture" style="width: 200px; height: 200px;" />
+                                                            {% else %}
+                                                                <div class="rounded-circle no-file-message">
+                                                                    <img class="rounded-circle" src="{% static 'assets/img/pro_pic.png' %}" alt="Profile Picture" style="width: 200px; height: 200px;" />
+                                                                </div>
+                                                            {% endif %}
+                                                            <div class="file-overlay">
+                                                                <div class="file btn btn-sm btn-primary mt-2" style="background-color: transparent; border: none; margin-left: 200px;">
+                                                                  <input type="file" name="profile_pic" id="images" onchange="validateImageFiles()">
+                                                                  <span id="images-error"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Basic Information -->
+                                    <div class="frm_submit_block  mb-5">
+                                        <h3>{{ user.username }}</h3>
+                                        <div class="frm_submit_wrap">
+                                            <div class="row">
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">UserName</label>
+                                                    <input type="text" name="username" class="form-control" value="{{ user.username }}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">Email</label>
+                                                    <input type="text" name="email" class="form-control" value="{{ user.email }}" disabled>
+                                                </div>
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">First Name</label>
+                                                    <input type="text" id="first-name" name="first_name" class="form-control" value="{{ user.first_name }}">
+                                                    <div id="first-name-error" class="error"></div>
+                                                </div>
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">Last Name</label>
+                                                    <input type="text" id="last-name" name="last_name" class="form-control" value="{{ user.last_name }}">
+                                                    <div id="last-name-error" class="error"></div>
+                                                  </div>
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">Phone Number</label>
+                                                    <input type="text" id="phone" name="phone_no" onkeyup="validatePhoneNumber()" class="form-control" value="{{ user.phone_no }}">
+                                                    <span id="phone-error" class="error"></span>
+                                                  </div>
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">Country</label>
+                                                    <input type="text" id="country" name="country" onkeyup="validateCountry()" class="form-control" value="{{ user_profile.country }}">
+                                                    <span id="country-error"></span>
+                                                  </div>
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">State</label>
+                                                    <input type="text" id="state" name="state" onkeyup="validateState()" class="form-control" value="{{ user_profile.state }}">
+                                                    <span id="state-error"></span>
+                                                  </div>
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">City</label>
+                                                    <input type="text" id="twon" name="city" class="form-control" value="{{ user_profile.city }}">
+                                                    <span id="twon-error"></span>
+                                                </div>
+                                                <div class="form-group col-md-6 pd-20">
+                                                    <label class="mt-2 mb-1">Pin Code</label>
+                                                    <input type="text" id="pincode" name="pin_code" class="form-control" value="{{ user_profile.pin_code }}">
+                                                    <span id="pincode-error"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-12 col-md-12 text-center">
+                                        <button class="btn btn-success" onclick="checkall()" type="submit">Save</button>
+                                    </div>
+                    </div>
+                  </div>
+  
+                </div>
+  
+              </div>
+              <!-- row -->
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </section>
+</form>
+
+
+<div class="col-md-10 offset-md-1">
+  <ul class="nav nav-pills-a nav-pills mb-3 section-t3" id="pills-tab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="pills-video-tab" data-bs-toggle="pill" href="#pills-video" role="tab" aria-controls="pills-video" aria-selected="true"> Change Password</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="pills-plans-tab" data-bs-toggle="pill" href="#pills-plans" role="tab" aria-controls="pills-plans" aria-selected="false">Posted Property</a>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" id="pills-map-tab" data-bs-toggle="pill" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="false">Ubication</a>
+    </li> -->
+  </ul>
+  <div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-video" role="tabpanel" aria-labelledby="pills-video-tab">
+    <form method="post" action="{% url 'change_password' %}">
+      {% csrf_token %}
+      <div class="frm_submit_block  mb-5">
+        <h3 class="my-4 mt-5 mb-5">Change Password</h3>
+        <!-- Current password -->
+        <div class="form-group col-md-6 pd-20">
+          <label for="exampleInputPassword2" class="mt-2 mb-1">Current password *</label>
+          <input type="password" name="current_password" class="form-control"/>
+        </div>
+        <!-- New password -->
+        <div class="form-group col-md-6 pd-20">
+          <label for="exampleInputPassword2" class="mt-2 mb-1">New password *</label>
+          <input type="password" name="new_password" class="form-control" />
+        </div>
+        <!-- Confirm password -->
+        <div class="form-group col-md-6 pd-20"">
+          <label for="exampleInputPassword3" class="mt-2 mb-1">Confirm Password *</label>
+          <input type="password" class="form-control" name="confirm_password" />
+        </div>
+      </div>
+      <div class="d-flex justify-content-center w-100 align-items-center">
+        <button class="btn btn-success sub-btn mt-3" type="submit"> Update Password </button>
+      </div>
+    </form>
+    </div>
+
+<div class="tab-pane fade" id="pills-plans" role="tabpanel" aria-labelledby="pills-plans-tab">
+  {% if user_properties %}
+  <section class="property-grid grid">
+    <div class="container">
+      <div class="row">
+        {% for i in user_properties %}
+        {% if i.active %}
+        {% if forloop.counter0|divisibleby:4 %}<div class="w-100">
+        </div>
+        {% endif %}
+        <div class="col-4">
+          <div class="card my-card">
+            <img src="{{ i.thumbnail.url }}" class="card-img-top" alt="Hollywood Sign on The Hill" width="300" height="300" />
+            <div class="card-body">
+              <h5 class="card-title">{{ i.property_type }}</h5>
+              <p class="card-text">{{ i.bedrooms }} BHK | {{ i.area }}
+
+              <p class="card-text">Grage :{{ i.grage }} | Bathrooms : {{ i.bathrooms }} |
+              <P class="card-text"> Address : {{ i.address }}, <br>
+              {{ i.city }} - {{ i.state }}
+              </p>
+              <P class="card-text">Proprty views : {{ i.view_count }}
+                </p>
+              <h5 class="card-title"> RS {{ i.price }}</h5><br>
+              <a href="{% url 'property_single' i.id %}?property_id={{ i.id }}" class="btn btn-success">View Property</a>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="{% url 'update_property' i.id %}" class="btn btn-success">Update Property</a>
+            </div>
+            
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% else %}
+    <p>No Property Posted.</p>
+  {% endif %}
+
+    </div>
+
+    <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes+Square!5e0!3m2!1ses-419!2sve!4v1510329142834" width="100%" height="460" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div> 
+  </div>
+</div>
+
+  <!-- ======= Footer ======= -->
+  <section class="section-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">FindMyNest</h3>
+            </div>
+            <div class="w-body-a">
+              <p class="w-text-a color-text-a">
+                FindMyNest is an innovative online platform designed to simplify the process of property management and real estate transactions. 
+                  This digital solution aims to provide users with the convenience of searching for, viewing, and booking properties from the comfort of their own space. 
+                  With a user-friendly interface, FindMyNest allows clients to explore a wide range of properties, 
+                  from residences to offices, and even assists in property-related services like home shifting and home loans.
+              </p>
+            </div>
+            <div class="w-footer-a">
+              <ul class="list-unstyled">
+                <li class="color-a">
+                  <span class="color-text-a">Phone .</span> +91 8113825461
+                </li>
+                <li class="color-a">
+                  <span class="color-text-a">Email .</span> findmynest@gmail.com
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 section-md-t3">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">The Company</h3>
+            </div>
+            <div class="w-body-a">
+              <div class="w-body-a">
+                <ul class="list-unstyled">
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Site Map</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Legal</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Agent Admin</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Careers</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Affiliate</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Privacy Policy</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 section-md-t3">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">International sites</h3>
+            </div>
+            <div class="w-body-a">
+              <ul class="list-unstyled">
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Venezuela</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">China</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Hong Kong</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Argentina</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Singapore</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Philippines</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <nav class="nav-footer">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#">Home</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">About</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Property</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Blog</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="socials-a">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="bi bi-facebook" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="bi bi-twitter" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="bi bi-instagram" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="bi bi-linkedin" aria-hidden="true"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="copyright-footer">
+            <p class="copyright color-text-a">
+              &copy; Copyright
+              <span class="color-a">FindMyNest</span> All Rights Reserved.
+            </p>
+          </div>
+          <div class="credits">
+            <!--
+            All the links in the footer should remain intact.
+            You can delete the links only if you purchased the pro version.
+            Licensing information: https://bootstrapmade.com/license/
+            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=EstateAgency
+          -->
+            <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <!-- Vendor JS Files -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imagesInput = document.getElementById('images');
+        const countryInput = document.getElementById('country');
+        const stateInput = document.getElementById('state');
+        const twonInput = document.getElementById('twon');
+        const firstNameInput = document.getElementById('first-name');
+        const lastNameInput = document.getElementById('last-name');
+        const pincodeInput = document.getElementById('pincode');
+        const phoneInput = document.getElementById('phone');
+        const form = document.getElementById('save');
+
+        // Function to validate image files onchange
+        function validateImageFiles() {
+            const imagesInputValue = imagesInput.value.toLowerCase();
+            const imagesError = document.getElementById('images-error');
+            const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif']; // List of allowed image file extensions
+
+            if (!imagesInputValue) {
+                imagesError.innerText = 'Please select an image.';
+                imagesInput.classList.remove('is-valid');
+                imagesInput.classList.add('is-invalid');
+                return false;
+            }
+
+            const fileExtension = imagesInputValue.slice(((imagesInputValue.lastIndexOf(".") - 1) >>> 0) + 2);
+
+            if (!allowedExtensions.includes(`.${fileExtension}`)) {
+                imagesInput.value = '';
+                imagesError.innerText = 'Invalid image format. Supported formats: JPG, JPEG, PNG, GIF.';
+                imagesInput.classList.remove('is-valid');
+                imagesInput.classList.add('is-invalid');
+                return false;
+            }
+
+            imagesError.innerText = ''; // Clear the error message
+            imagesInput.classList.remove('is-invalid');
+            imagesInput.classList.add('is-valid');
+            return true;
+        }
+
+        // Function to validate country onkeyup
+        function validateCountry() {
+          const selectedCountry = countryInput.value.trim().toLowerCase(); // Convert to lowercase
+          const selectedState = document.getElementById('state').value.trim(); // Get the state value
+          const countryError = document.getElementById('country-error');
+      
+          const validCountries = ['India', 'USA', 'Canada', 'Australia', 'UK', 'Germany', 'France', 'China', 'Brazil', 'Japan', 'Russia', 'South Korea', 'Mexico', 'South Africa'];
+          
+          // Convert validCountries to lowercase
+          const validCountriesLowerCase = validCountries.map(country => country.toLowerCase());
+      
+          if (!selectedCountry) {
+              countryError.innerText = 'Please enter a country.';
+              return true;
+          } else if (!validCountriesLowerCase.includes(selectedCountry)) {
+              countryError.innerText = 'Invalid country.';
+              return false;
+          } else {
+              countryError.innerText = '';
+              return true; // Clear the error message
+          }
+      }
+
+        // Function to validate state onkeyup
+        function validateState() {
+            const selectedCountry = countryInput.value.trim().toLowerCase(); // Get the country value
+            const selectedState = stateInput.value.trim().toLowerCase(); // Convert to lowercase
+            const stateError = document.getElementById('state-error');
+
+            const validStatesByCountry = {
+                'India': ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'],
+                'USA': ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
+                'Canada': ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon'],
+                'Australia': ['Australian Capital Territory', 'New South Wales', 'Northern Territory', 'Queensland', 'South Australia', 'Tasmania', 'Victoria', 'Western Australia'],
+                'UK': ['England', 'Scotland', 'Wales', 'Northern Ireland'],
+                'Germany': ['Baden-Württemberg', 'Bavaria', 'Berlin', 'Brandenburg', 'Bremen', 'Hamburg', 'Hesse', 'Lower Saxony', 'Mecklenburg-Vorpommern', 'North Rhine-Westphalia', 'Rhineland-Palatinate', 'Saarland', 'Saxony', 'Saxony-Anhalt', 'Schleswig-Holstein', 'Thuringia'],
+                'France': ['Auvergne-Rhône-Alpes', 'Bourgogne-Franche-Comté', 'Brittany', 'Centre-Val de Loire', 'Corsica', 'Grand Est', 'Hauts-de-France', 'Île-de-France', 'Normandy', 'Nouvelle-Aquitaine', 'Occitanie', 'Pays de la Loire', 'Provence-Alpes-Côte d','Azur'],
+                'China': ['Beijing', 'Shanghai', 'Guangdong', 'Shenzhen', 'Tianjin', 'Chongqing', 'Sichuan', 'Hunan', 'Zhejiang', 'Jiangsu', 'Fujian', 'Hubei', 'Shanxi', 'Henan', 'Hebei', 'Liaoning', 'Jilin', 'Heilongjiang', 'Anhui', 'Hainan', 'Guizhou', 'Yunnan', 'Ningxia', 'Xinjiang', 'Inner Mongolia', 'Gansu', 'Qinghai', 'Tibet'],
+                'Brazil': ['Acre', 'Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Ceará', 'Espírito Santo', 'Federal District', 'Goiás', 'Maranhão', 'Mato Grosso', 'Mato Grosso do Sul', 'Minas Gerais', 'Pará', 'Paraíba', 'Paraná', 'Pernambuco', 'Piauí', 'Rio de Janeiro', 'Rio Grande do Norte', 'Rio Grande do Sul', 'Rondônia', 'Roraima', 'Santa Catarina', 'São Paulo', 'Sergipe', 'Tocantins'],
+                'Japan': ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'],
+                'Russia': ['Central Federal District', 'Southern Federal District', 'Northwestern Federal District', 'Far Eastern Federal District', 'Siberian Federal District', 'Ural Federal District', 'Volga Federal District'],
+                'South Korea': ['Seoul', 'Busan', 'Daegu', 'Incheon', 'Gwangju', 'Daejeon', 'Ulsan', 'Sejong', 'Gyeonggi Province', 'Gangwon Province', 'North Chungcheong Province', 'South Chungcheong Province', 'North Jeolla Province', 'South Jeolla Province', 'North Gyeongsang Province', 'South Gyeongsang Province', 'Jeju Special Self-Governing Province'],
+                'Mexico': ['Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Durango', 'Guanajuato', 'Guerrero', 'Hidalgo', 'Jalisco', 'Mexico City', 'Mexico State', 'Michoacán', 'Morelos', 'Nayarit', 'Nuevo León', 'Oaxaca', 'Puebla', 'Querétaro', 'Quintana Roo', 'San Luis Potosí', 'Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatán', 'Zacatecas'],
+                'South Africa': ['Eastern Cape', 'Free State', 'Gauteng', 'KwaZulu-Natal', 'Limpopo', 'Mpumalanga', 'North West', 'Northern Cape'],
+            };
+
+            const validStatesByCountryLowercase = {};
+            for (const country in validStatesByCountry) {
+                const lowercaseCountry = country.toLowerCase();
+                const lowercaseStates = validStatesByCountry[country].map(state => state.toLowerCase());
+                validStatesByCountryLowercase[lowercaseCountry] = lowercaseStates;
+            }
+
+                if (!selectedState) {
+                    stateError.innerText = 'Please enter a state.';
+                    return true;
+                } else if (!validStatesByCountryLowercase[selectedCountry]) {
+                    stateError.innerText = 'Invalid country. Please enter a valid country first.';
+                    return false;
+                } else if (!validStatesByCountryLowercase[selectedCountry].includes(selectedState)) {
+                    stateError.innerText = 'Invalid state for the selected country.';
+                    return false;
+                } else {
+                    stateError.innerText = '';
+                    return true; // Clear the error message
+                }
+            }
+
+            function validateTwon() {
+              const twonInputValue = twonInput.value.trim(); // Get the city value
+              const twonError = document.getElementById('twon-error');
+          
+              // Regular expression to allow alphabetic characters and spaces
+              const alphaRegex = /^[A-Za-z\s]+$/;
+          
+              if (!twonInputValue) {
+                  twonError.innerText = 'Please enter a city.';
+                  return false;
+              } else if (!alphaRegex.test(twonInputValue)) {
+                twonError.innerText = 'City name should contain only alphabetic characters and spaces.';
+                  return false;
+              } else {
+                twonError.innerText = ''; // Clear the error message
+                  return true;
+              }
+          }
+  
+          // Function to validate pincode onkeyup
+          function validatePincode() {
+              const pincodeInputValue = pincodeInput.value.trim(); // Get the pincode value
+              const pincodeError = document.getElementById('pincode-error');
+  
+              const pincodeRegex = /^\d{6}$/;
+
+              if (!pincodeInputValue) {
+                  pincodeError.innerText = 'Please enter a pincode.';
+                  return false;
+              } else if (!pincodeRegex.test(pincodeInputValue)) {
+                  pincodeError.innerText = 'Pincode should be a 6-digit number.';
+                  return false;
+              } else {
+                  pincodeError.innerText = '';
+                  return true; // Clear the error message
+              }
+          }
+
+          function validateFirstName() {
+            const firstNameInputValue = firstNameInput.value.trim(); // Get the first name value
+            const firstNameError = document.getElementById('first-name-error');
+        
+            const alphaRegex = /^[A-Za-z]+$/;
+        
+            if (!firstNameInputValue) {
+                firstNameError.innerText = 'Please enter your first name.';
+                return false;
+            } else if (!alphaRegex.test(firstNameInputValue)) {
+                firstNameError.innerText = 'First name should contain only alphabetic characters.';
+                return false;
+            } else {
+                firstNameError.innerText = '';
+                return true; // Clear the error message
+            }
+        }
+        
+        // Function to validate last name
+        function validateLastName() {
+            const lastNameInputValue = lastNameInput.value.trim(); // Get the last name value
+            const lastNameError = document.getElementById('last-name-error');
+        
+            const alphaRegex = /^[A-Za-z]+$/;
+        
+            if (!lastNameInputValue) {
+                lastNameError.innerText = 'Please enter your last name.';
+                return false;
+            } else if (!alphaRegex.test(lastNameInputValue)) {
+                lastNameError.innerText = 'Last name should contain only alphabetic characters.';
+                return false;
+            } else {
+                lastNameError.innerText = '';
+                return true; // Clear the error message
+            }
+        }
+
+        function validatePhone() {
+          const phoneInputValue = document.getElementById('phone').value.trim();
+          const phoneError = document.getElementById('phone-error');
+      
+          // Phone number validation regex (example for 10-digit numbers)
+          const phoneRegex = /^\d{10}$/;
+      
+          if (!phoneInputValue) {
+              phoneError.innerText = 'Please enter a phone number.';
+              return false;
+          } else if (!phoneRegex.test(phoneInputValue)) {
+              phoneError.innerText = 'Invalid phone number. It should be a 10-digit number.';
+              return false;
+          } else {
+              phoneError.innerText = '';
+              return true; // Clear the error message
+          }
+      }
+            
+        function hasValidationErrors() {
+          const firstNameError = document.getElementById('first-name-error');
+          const lastNameError = document.getElementById('last-name-error');
+          const cityError = document.getElementById('twon-error');
+          const pincodeError = document.getElementById('pincode-error');
+          const imagesError = document.getElementById('images-error');
+          const countryError = document.getElementById('country-error');
+          const stateError = document.getElementById('state-error');
+      
+          // Check if any of the error elements contains text (validation error message)
+          return (
+              firstNameError.innerText ||
+              lastNameError.innerText ||
+              twonError.innerText ||
+              pincodeError.innerText ||
+              imagesError.innerText ||
+              countryError.innerText ||
+              stateError.innerText
+              || phoneError.innerText
+          );
+      }
+  
+          // Add a submit event listener to the form
+          form.addEventListener('submit', function(event) {
+            if (hasValidationErrors()) {
+                // Prevent form submission if there are validation errors
+                event.preventDefault();
+                alert('Please fix the validation errors before submitting the form.');
+        
+                // Clear only the error-occurring data
+                if (imagesError.innerText) {
+                    imagesInput.value = '';
+                }
+                if (countryError.innerText) {
+                    countryInput.value = '';
+                }
+                if (stateError.innerText) {
+                    stateInput.value = '';
+                }
+                if (twonInput.innerText) {
+                    twonInput.value = '';
+                }
+                if (pincodeError.innerText) {
+                    pincodeInput.value = '';
+                }
+                if (firstNameError.innerText) {
+                    firstNameInput.value = '';
+                }
+                if (lastNameError.innerText) {
+                    lastNameInput.value = '';
+                }
+            }
+        });
+  
+          // Add event listeners to the form elements
+          imagesInput.addEventListener('change', validateImageFiles);
+          countryInput.addEventListener('keyup', validateCountry);
+          stateInput.addEventListener('keyup', validateState);
+          firstNameInput.addEventListener('keyup', validateFirstName);
+          lastNameInput.addEventListener('keyup', validateLastName);
+          twonInput.addEventListener('keyup', validateTwon);
+          pincodeInput.addEventListener('keyup', validatePincode);
+          phoneInput.addEventListener('input', validatePhone);
+      });
+
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const errorMessage = document.getElementById('error-message');
+
+      if (errorMessage) {
+          // Show the error message
+          errorMessage.style.display = 'block';
+
+          // Set a timer to hide the error message after, for example, 5 seconds (5000 milliseconds)
+          setTimeout(function() {
+              errorMessage.style.display = 'none';
+          }, 5000); // Adjust the time as needed (5 seconds in this example)
+      }
+  });
+</script>
+
+
+
+
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+
+  <!-- Template Main JS File -->
+  <!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const alertType = urlParams.get('alert');
+  
+        if (alertType === 'password_updated') {
+            showAlert('Your password was successfully updated.', 'success');
+        } else if (alertType === 'password_not_match') {
+            showAlert('Passwords do not match.', 'danger');
+        } else if (alertType === 'incorrect_current_password') {
+            showAlert('Current password is incorrect.', 'danger');
+        }
+  
+        function showAlert(message, alertType) {
+            const alertDiv = document.createElement('div');
+            alertDiv.classList.add('alert', `alert-${alertType}`, 'alert-top');
+            alertDiv.textContent = message;
+  
+            const container = document.querySelector('.container');
+            container.insertBefore(alertDiv, container.firstChild);
+  
+            setTimeout(function() {
+                alertDiv.remove();
+            }, 5000);  // Remove after 5 seconds
+        }
+    });
+  </script> -->
+  
+</body>
+
+</html>

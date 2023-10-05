@@ -1,0 +1,72 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block content%}
+<main id="main">
+
+    <div class="container">
+      <section class="intro-single">
+        <div class="row">
+          <div class="col-md-12 col-lg-8">
+            <div class="title-single-box">
+              <h1 class="title-single">Our Amazing Properties</h1>
+              <span class="color-text-a">Grid Properties</span>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-4">
+            <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="#">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Properties Grid
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </section><!-- End Intro Single-->
+    
+      <!-- ======= Property Grid ======= -->
+      
+
+      <h1>All Users</h1>
+      <table border="1">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Username</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>User Type</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for user in users %}
+              <tr>
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.first_name }}</td>
+                  <td>{{ user.last_name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.phone_no }}</td>
+                  <td>{{ user.get_user_type_display }}</td>
+                  <td>
+                      <a href="{% url 'update_user' user.id %}">Update</a>
+                      <a href="{% url 'delete_user' user.id %}">Delete</a>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      
+      
+      !-- End Container -->
+    
+  
+  
+  </main>
+  {% endblock %}

@@ -1,0 +1,626 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>FindMyNest</title>
+<style>
+  .custom-container {
+    width: 1500px; /* Set your desired width in pixels or any other valid CSS unit */
+    margin: 0 auto; /* Center the container horizontally */
+  }
+  .navbar-brand {
+    margin-left: 30px; /* Adjust the margin value as needed */
+}
+</style>
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="Portal - Bootstrap 5 Admin Dashboard Template For Developers"/>
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media" />
+    <link rel="shortcut icon" href="favicon.ico" />
+	<script defer src="{% static 'assets1/plugins/fontawesome/js/all.min.js' %}"></script>
+
+	<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Favicons -->
+<link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+<link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+<link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<!-- Include DataTables JavaScript -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- Vendor JS Files -->
+<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+      // Use event delegation to handle the click event
+      $(document).on('click', '#deleteButton', function(e) {
+          e.preventDefault(); // Prevent the default link behavior
+  
+          // Display a confirmation dialog
+          if (confirm('Are you sure you want to delete this user?')) {
+              // If the user confirms, proceed with the delete action
+              var deleteUrl = $(this).parent().data('delete-url');
+              window.location.href = deleteUrl;
+          }
+      });
+  });
+  </script>
+
+    <!-- FontAwesome JS-->
+    <script
+      defer
+      src="{% static 'assets1/plugins/fontawesome/js/all.min.js' %}"></script>
+
+    <!-- App CSS -->
+    <link
+      id="theme-style"
+      rel="stylesheet"
+      href="{% static 'assets1/css/portal.css' %}"
+    />
+  </head>
+
+  <body class="app" style="background-color: #eeeeee; ">
+    <header class="app-header fixed-top">
+
+      <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+        <a class="navbar-brand text-brand" href="index.html">FindM<span class="color-b">yNest</span></a>
+        <div class="container">
+		
+			  <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+				<ul class="navbar-nav">
+				  <li class="nav-item">
+					<a class="nav-link " href="{% url 'admindashboard' %}">Dashboard</a>
+				  </li>
+		
+		
+				  {% if user.is_superuser %}
+				  <li class="nav-item">
+					<a class="nav-link " href="{% url 'propertylist' %}">Property</a>
+				  </li>
+				  <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Welcome,  {{ user.username }}!</a>
+					<div class="dropdown-menu">
+					  <a class="dropdown-item " href="{% url 'logout' %}">Logout</a>
+					</div>
+				  </li>
+		
+				  {% comment %} {%  elif  user.is_authenticated %}
+				  <li class="nav-item">
+					<a class="nav-link " href="{% url 'propertylist' %}">Property</a>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link " href="{% url 'addproperty' %}">Post Property</a>
+				  </li>
+				  <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Welcome,  {{ user.username }}!</a>
+					<div class="dropdown-menu">
+					  <a class="dropdown-item " href="{% url 'logout' %}">Logout</a>
+					  <a class="dropdown-item " href="{% url 'editprofile' %}">Profile</a>
+					</div>
+				  </li> {% endcomment %}
+				  {% else %}
+				  <li class="nav-item">
+					<a class="nav-link " href="contact.html">Welcome, guest!</a>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link " href="/register">Register</a>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link " href="{% url 'login' %}">Login</a>
+				  </li>
+				  {% endif %}
+				</ul>
+		
+			  </div>
+		
+			  <!-- <button type="button" class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
+				<i class="bi bi-search"></i>
+			  </button> -->
+		
+			</div>
+		  </nav>
+
+
+
+			<div id="app-sidepanel" class="app-sidepanel">
+				<div id="sidepanel-drop" class="sidepanel-drop"></div>
+				<div class="sidepanel-inner d-flex flex-column">
+					<a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+					<div class="app-branding">
+						<a class="app-logo" href="index.html"><span class="logo-text">FindMyNest</span></a>
+
+					</div><!--//app-branding-->
+
+					<nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+						<ul class="app-menu list-unstyled accordion" id="menu-accordion">
+							<li class="nav-item">
+								<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+								<a class="nav-link"  href="{% url 'admindashboard' %}">
+									<span class="nav-icon">
+										<svg width="1em" height="1em" viewBox="0 0 16 16"
+											class="bi bi-house-door" fill="currentColor"
+											xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd"
+												d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z" />
+											<path fill-rule="evenodd"
+												d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+										</svg>
+									</span>
+									<span class="nav-link-text">Overview</span>
+								</a><!--//nav-link-->
+							</li><!--//nav-item-->
+							
+							<li class="nav-item">
+								<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+								<a class="nav-link " href="{% url 'users' %}">
+									<span class="nav-icon">
+										<svg width="1em" height="1em" viewBox="0 0 16 16"
+											class="bi bi-card-list" fill="currentColor"
+											xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd"
+												d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+											<path fill-rule="evenodd"
+												d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z" />
+											<circle cx="3.5" cy="5.5" r=".5" />
+											<circle cx="3.5" cy="8" r=".5" />
+											<circle cx="3.5" cy="10.5" r=".5" />
+										</svg>
+									</span>
+									<span class="nav-link-text">Users</span>
+								</a><!--//nav-link-->
+							</li><!--//nav-item-->
+              
+              <li class="nav-item">
+								<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+								<a class="nav-link" href="{% url 'propertys' %}">
+									<span class="nav-icon">
+										<svg width="1em" height="1em" viewBox="0 0 16 16"
+											class="bi bi-card-list" fill="currentColor"
+											xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd"
+												d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+											<path fill-rule="evenodd"
+												d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z" />
+											<circle cx="3.5" cy="5.5" r=".5" />
+											<circle cx="3.5" cy="8" r=".5" />
+											<circle cx="3.5" cy="10.5" r=".5" />
+										</svg>
+									</span>
+									<span class="nav-link-text">Propertys</span>
+								</a><!--//nav-link-->
+							</li>
+              <li class="nav-item has-submenu">
+								<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+								<a class="nav-link submenu-toggle  active" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-1" aria-expanded="false" aria-controls="submenu-1">
+									<span class="nav-icon">
+									<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-files" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M4 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4z"/>
+									<path d="M6 0h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1H4a2 2 0 0 1 2-2z"/>
+									</svg>
+																</span>
+																<span class="nav-link-text">Subscription</span>
+																<span class="submenu-arrow">
+																	<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+									</svg>
+									 </span><!--//submenu-arrow-->
+								</a><!--//nav-link-->
+								<div id="submenu-1" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
+									<ul class="submenu-list list-unstyled">
+										<li class="submenu-item active "><a class="submenu-link" href="{% url 'add_subscription' %}">Add Subscription</a></li>
+										<li class="submenu-item"><a class="submenu-link  active" href="{% url 'subscription' %}">View Subscription</a></li>										
+									</ul>
+								</div>
+							</li>
+							<!--//nav-item-->
+							</ul><!--//footer-menu-->
+						</nav>
+					</div><!--//app-sidepanel-footer-->
+
+				</div><!--//sidepanel-inner-->
+			</div>
+      <!--//app-sidepanel-->
+    </header>
+    <!--//app-header-->
+
+    <div class="app-wrapper">
+      <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="custom-container">
+          <div class="row g-3 mb-4 align-items-center justify-content-between" style="margin-top: 100px;">
+            <div class="col-auto">
+              <!-- <h1 class="app-page-title mb-0">Users</h1> -->
+            </div>
+            
+            <!--//col-auto-->
+          </div>
+          <!--//row-->
+
+          <nav
+            id="orders-table-tab"
+            class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4" >
+            <a
+              class="flex-sm-fill text-sm-center nav-link active"
+              id="orders-all-tab"
+              data-bs-toggle="tab"
+              href="#orders-all"
+              role="tab"
+              aria-controls="orders-all"
+              aria-selected="true"
+              >All Subscription</a >
+            {% comment %} <a
+              class="flex-sm-fill text-sm-center nav-link"
+              id="orders-paid-tab"
+              data-bs-toggle="tab"
+              href="#orders-paid"
+              role="tab"
+              aria-controls="orders-paid"
+              aria-selected="false"
+              >Paid</a
+            >
+            <a
+              class="flex-sm-fill text-sm-center nav-link"
+              id="orders-pending-tab"
+              data-bs-toggle="tab"
+              href="#orders-pending"
+              role="tab"
+              aria-controls="orders-pending"
+              aria-selected="false"
+              >Pending</a
+            >
+            <a
+              class="flex-sm-fill text-sm-center nav-link"
+              id="orders-cancelled-tab"
+              data-bs-toggle="tab"
+              href="#orders-cancelled"
+              role="tab"
+              aria-controls="orders-cancelled"
+              aria-selected="false"
+              >Cancelled</a
+            > {% endcomment %}
+          </nav>
+
+          <div class="tab-content" id="orders-table-tab-content" style="background-color: #eeeeee; ">
+            <div
+              class="tab-pane fade show active"
+              id="orders-all"
+              role="tabpanel"
+              aria-labelledby="orders-all-tab" style="background-color: #eeeeee; ">
+              <div class="app-card app-card-orders-table shadow-sm mb-5">
+                <div class="app-card-body">
+                  <div class="table-responsive" style="background-color: #eeeeee; ">
+                    <table class="table app-table-hover mb-0 text-left" id="example" style="font-size: 16px;  border: .5px solid rgb(186, 240, 186); ">
+                      <thead>
+                        <tr>
+                          <th class="cell" style="background-color: rgb(6, 146, 6); color: white;">SI NO</th>
+                          <th class="cell" style="background-color:rgb(6, 146, 6); color: white;"> Subscription Type</th>
+                          <th class="cell" style="background-color: rgb(6, 146, 6); color: white;">Price</th>
+                          <th class="cell" style="background-color: rgb(6, 146, 6); color: white;">Validity</th>
+                          <th class="cell" style="background-color: rgb(6, 146, 6); color: white;">Features</th>
+                          
+                        </tr>
+                      </thead>
+                      <tbody style="border: 2px solid rgb(186, 240, 186); ">
+                        {% for subscription in subscriptions %}
+                        <tr>
+                          <td class="cell" style="border: .5px solid rgb(186, 240, 186); ">{{ forloop.counter }}</td>
+                          <td class="cell" style="border: .5px solid rgb(186, 240, 186); ">
+                            <span class="truncate">{{ subscription.sub_type }}</a></span>
+                          </td>
+                          <td class="cell" style="border: .5px solid rgb(186, 240, 186); ">
+                            <span class="badge bg-danger">{{ subscription.price }}</span>
+                          </td>
+                          <td class="cell" style="border: .5px solid rgb(186, 240, 186); ">
+                            <span class="badge bg-warning">{{ subscription.validity }}</span>
+                          </td>
+                          <td class="cell" style="border: .5px solid rgb(186, 240, 186); ">
+                            <span class="badge bg-success">{{ subscription.features }}</span>
+                          </td>
+                          
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--//table-responsive-->
+                </div>
+                <!--//app-card-body-->
+              </div>
+              <!--//app-pagination-->
+            </div>
+            <!--//tab-pane-->
+
+            <div
+              class="tab-pane fade"
+              id="orders-paid"
+              role="tabpanel"
+              aria-labelledby="orders-paid-tab"
+            >
+              <div class="app-card app-card-orders-table mb-5">
+                <div class="app-card-body">
+                  <div class="table-responsive">
+                    <table class="table mb-0 text-left" id="example">
+                      <thead>
+                        <tr>
+                          <th class="cell">Order</th>
+                          <th class="cell">Product</th>
+                          <th class="cell">Customer</th>
+                          <th class="cell">Date</th>
+                          <th class="cell">Status</th>
+                          <th class="cell">Total</th>
+                          <th class="cell"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="cell">#15346</td>
+                          <td class="cell">
+                            <span class="truncate"
+                              >Lorem ipsum dolor sit amet eget volutpat
+                              erat</span
+                            >
+                          </td>
+                          <td class="cell">John Sanders</td>
+                          <td class="cell">
+                            <span>17 Oct</span><span class="note">2:16 PM</span>
+                          </td>
+                          <td class="cell">
+                            <span class="badge bg-success">Paid</span>
+                          </td>
+                          <td class="cell">$259.35</td>
+                          <td class="cell">
+                            <a class="btn-sm app-btn-secondary" href="#"
+                              >View</a
+                            >
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td class="cell">#15344</td>
+                          <td class="cell">
+                            <span class="truncate"
+                              >Pellentesque diam imperdiet</span
+                            >
+                          </td>
+                          <td class="cell">Teresa Holland</td>
+                          <td class="cell">
+                            <span class="cell-data">16 Oct</span
+                            ><span class="note">01:16 AM</span>
+                          </td>
+                          <td class="cell">
+                            <span class="badge bg-success">Paid</span>
+                          </td>
+                          <td class="cell">$123.00</td>
+                          <td class="cell">
+                            <a class="btn-sm app-btn-secondary" href="#"
+                              >View</a
+                            >
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td class="cell">#15343</td>
+                          <td class="cell">
+                            <span class="truncate"
+                              >Vestibulum a accumsan lectus sed mollis
+                              ipsum</span
+                            >
+                          </td>
+                          <td class="cell">Jayden Massey</td>
+                          <td class="cell">
+                            <span class="cell-data">15 Oct</span
+                            ><span class="note">8:07 PM</span>
+                          </td>
+                          <td class="cell">
+                            <span class="badge bg-success">Paid</span>
+                          </td>
+                          <td class="cell">$199.00</td>
+                          <td class="cell">
+                            <a class="btn-sm app-btn-secondary" href="#"
+                              >View</a
+                            >
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td class="cell">#15341</td>
+                          <td class="cell">
+                            <span class="truncate"
+                              >Morbi vulputate lacinia neque et
+                              sollicitudin</span
+                            >
+                          </td>
+                          <td class="cell">Raymond Atkins</td>
+                          <td class="cell">
+                            <span class="cell-data">11 Oct</span
+                            ><span class="note">11:18 AM</span>
+                          </td>
+                          <td class="cell">
+                            <span class="badge bg-success">Paid</span>
+                          </td>
+                          <td class="cell">$678.26</td>
+                          <td class="cell">
+                            <a class="btn-sm app-btn-secondary" href="#"
+                              >View</a
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--//table-responsive-->
+                </div>
+                <!--//app-card-body-->
+              </div>
+              <!--//app-card-->
+            </div>
+            <!--//tab-pane-->
+
+            <div
+              class="tab-pane fade"
+              id="orders-pending"
+              role="tabpanel"
+              aria-labelledby="orders-pending-tab"
+            >
+              <div class="app-card app-card-orders-table mb-5">
+                <div class="app-card-body">
+                  <div class="table-responsive">
+                    <table class="table mb-0 text-left">
+                      <thead>
+                        <tr>
+                          <th class="cell">Order</th>
+                          <th class="cell">Product</th>
+                          <th class="cell">Customer</th>
+                          <th class="cell">Date</th>
+                          <th class="cell">Status</th>
+                          <th class="cell">Total</th>
+                          <th class="cell"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="cell">#15345</td>
+                          <td class="cell">
+                            <span class="truncate"
+                              >Consectetur adipiscing elit</span
+                            >
+                          </td>
+                          <td class="cell">Dylan Ambrose</td>
+                          <td class="cell">
+                            <span class="cell-data">16 Oct</span
+                            ><span class="note">03:16 AM</span>
+                          </td>
+                          <td class="cell">
+                            <span class="badge bg-warning">Pending</span>
+                          </td>
+                          <td class="cell">$96.20</td>
+                          <td class="cell">
+                            <a class="btn-sm app-btn-secondary" href="#"
+                              >View</a
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--//table-responsive-->
+                </div>
+                <!--//app-card-body-->
+              </div>
+              <!--//app-card-->
+            </div>
+            <!--//tab-pane-->
+            <div
+              class="tab-pane fade"
+              id="orders-cancelled"
+              role="tabpanel"
+              aria-labelledby="orders-cancelled-tab"
+            >
+              <div class="app-card app-card-orders-table mb-5">
+                <div class="app-card-body">
+                  <div class="table-responsive">
+                    <table class="table mb-0 text-left">
+                      <thead>
+                        <tr>
+                          <th class="cell">Order</th>
+                          <th class="cell">Product</th>
+                          <th class="cell">Customer</th>
+                          <th class="cell">Date</th>
+                          <th class="cell">Status</th>
+                          <th class="cell">Total</th>
+                          <th class="cell"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="cell">#15342</td>
+                          <td class="cell">
+                            <span class="truncate">Justo feugiat neque</span>
+                          </td>
+                          <td class="cell">Reina Brooks</td>
+                          <td class="cell">
+                            <span class="cell-data">12 Oct</span
+                            ><span class="note">04:23 PM</span>
+                          </td>
+                          <td class="cell">
+                            <span class="badge bg-danger">Cancelled</span>
+                          </td>
+                          <td class="cell">$59.00</td>
+                          <td class="cell">
+                            <a class="btn-sm app-btn-secondary" href="#"
+                              >View</a
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--//table-responsive-->
+                </div>
+                <!--//app-card-body-->
+              </div>
+              <!--//app-card-->
+            </div>
+            <!--//tab-pane-->
+          </div>
+          <!--//tab-content-->
+        </div>
+        <!--//container-fluid-->
+      </div>
+      <!--//app-content-->
+
+      <!--//app-footer-->
+    </div>
+    <!--//app-wrapper-->
+    <script> 
+      new DataTable('#example');
+    </script>
+    
+    
+    
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Javascript -->
+    <script src="{% static 'assets/plugins/popper.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Page Specific JS -->
+    <script src="{% static 'assets/js/app.js' %}"></script>
+  </body>
+</html>

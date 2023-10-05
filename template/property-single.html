@@ -1,0 +1,897 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <style>
+    
+    .alert-top {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 500px;
+      z-index: 1000;
+  }
+
+    .carousel-inner .carousel-item img {
+      width: 2000px; 
+      height: 700px; 
+      object-fit: fill; 
+    }
+    .link-grey { color: #aaa; } .link-grey:hover { color: #00913b; }
+    #property-single-carousel {
+      max-width: 2500px; 
+      margin: 0 auto; 
+    }
+
+    .card:hover {
+      /* Add your desired styles here */
+      background-color: #f5f5f5; /* Change the background color on hover */
+      cursor: pointer; /* Change the cursor to a pointer on hover */
+  }
+
+  
+    .contact-button {
+      display: inline-block;
+      padding: 10px 0; /* Adjust vertical padding as needed */
+      width: 470px; /* Set the initial width */
+      background-color: #33ff00;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.3s; /* Add transform transition */
+      transform-origin: center; /* Set the transform origin to the center */
+  }
+  
+  .contact-button:hover {
+      background-color: #33ff00;
+      transform: scaleX(1.1); /* Expand the width on hover */
+  }
+
+/* Popup styles */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+/* Popup content styles */
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  width: 90%; /* Increase the width as needed */
+  max-width: 500px; /* Set a maximum width if desired */
+  text-align: center;
+  border-radius: 10px;
+}
+
+
+/* Close button styles */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Popup title styles */
+.popup h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Contact details styles */
+.popup p {
+  color: #555;
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+/* Button styles */
+.popup .btn {
+  background-color: #007a00;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.popup .btn:hover {
+  background-color: #33910d;
+}
+
+
+
+
+
+
+  </style>
+
+  <title>FindMyNest</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+  <!-- ======= Header/Navbar ======= -->
+  <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+    <div class="container">
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a class="navbar-brand text-brand" href="index.html">FindM<span class="color-b">yNest</span></a>
+
+      <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'index' %}">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'about' %}">About</a>
+          </li>
+
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link active " href="{% url 'propertylist' %}">Property</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Welcome,  {{ user.username }}!</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item " href="{% url 'logout' %}">Logout</a>
+            </div>
+          </li>
+
+
+          {%  elif  user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Property</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'propertylist' %}">All Property</a>
+                {% for property_type in property_types %}
+                    <a class="dropdown-item" href="{% url 'property_list_by_type' property_type=property_type %}">{{ property_type }}</a>
+                {% endfor %}
+            </div>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'addproperty' %}">Post Property</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Welcome,  {{ user.username }}!</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item " href="{% url 'logout' %}">Logout</a>
+              <a class="dropdown-item " href="{% url 'editprofile' %}">Profile</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link " href="contact.html">Welcome, guest!</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="/register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'login' %}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+
+      </div>
+    </div>
+  </nav><!-- End Header/Navbar -->
+
+  </nav><!-- End Header/Navbar -->
+
+  <main id="main">
+
+    <!-- ======= Intro Single ======= -->
+    <section class="intro-single">
+      <div class="container" style="max-width: 1400px;">
+        <div class="row">
+          <div class="col-md-12 col-lg-8">
+            <div class="title-single-box">
+              <h1 class="title-single">{{property.property_type}}</h1>
+              <span class="color-text-a">{{property.area}}</span>                      
+              <span class="color-text-a">{{property.status}}</span>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-4">
+            <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="{% url 'propertylist' %}">Properties</a>
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Intro Single-->
+
+    <!-- ======= Property Single ======= -->
+    <section class="property-single nav-arrow-b">
+      <div class="container" style="max-width: 1400px;">
+        <div class="row justify-content-center mb-10" >
+          <div class="col-lg-15 mb-10">
+            <!-- Bootstrap Carousel for multiple images -->
+            <div id="property-single-carousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <!-- First image -->
+                {% for image in images  %}
+                <div class="carousel-item active">
+                  <img src="{{image.images.url}}" class="d-block w-100" alt="Image 1">
+                </div>
+                {% endfor %}
+              </div>
+              <!-- Carousel controls -->
+              <a class="carousel-control-prev" href="#property-single-carousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#property-single-carousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="row mt-30">
+          <div class="col-sm-12">
+
+            <div class="row justify-content-between">
+              <div class="col-md-5 col-lg-4">
+                <div class="property-price d-flex justify-content-center foo">
+                  <div class="card-header-c d-flex">
+                      <h5 class="title-c" style="margin-top: 60px;">Rs</h5>
+                    <div class="card-title-c align-self-center">
+                      <h5 class="title-c" style="margin-left: 20px; margin-top: 60px;">{{property.price}}</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="property-summary">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="title-box-d section-t4">
+                        <h3 class="title-d">Quick Summary</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="summary-list">
+                    <ul class="list">
+                      <li class="d-flex justify-content-between">
+                        <strong>Property Type:</strong>
+                        <span>{{property.property_type}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Status:</strong>
+                        <span>{{property.status}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Area:</strong>
+                        <span>
+                          {{property.area}}
+                        </span>
+                      </li>
+                      {% if property.property_type not in excluded_property_types %}
+                      <li class="d-flex justify-content-between">
+                        <strong>Beds:</strong>
+                        <span>{{ property.bedrooms }}</span>
+                      </li>
+                      {% endif %}
+                      <li class="d-flex justify-content-between">
+                        <strong>Baths:</strong>
+                        <span>{{property.bathrooms}}</span>
+                      </li>
+                      {% if property.property_type != 'Garage' %}
+                      <li class="d-flex justify-content-between">
+                        <strong>Garage:</strong>
+                        <span>{{ property.garage }}</span>
+                      </li>
+                      {% endif %}
+                      <li class="d-flex justify-content-between">
+                        <strong>Bulding Age:</strong>
+                        <span>{{property.bulding_age}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Last Renovated:</strong>
+                        <span>{{property.last_renovated}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Major Road:</strong>
+                        <span>{{property.major_road}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Nearest Hospital:</strong>
+                        <span>{{property.near_hospital}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Nearest Super Market:</strong>
+                        <span>{{property.near_supermarket}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between ">
+                        <strong>Location:</strong>
+                        <span>{{property.address}}</span>
+                      </li>
+                      {% if property.property_type == 'Apartment' %}
+                      <li class="d-flex justify-content-between">
+                          <strong>Floor Number:</strong>
+                          <span>{{ property.floor_no }}</span>
+                      </li>
+                      {% else %}
+                      <li class="d-flex justify-content-between">
+                          <strong>Floor:</strong>
+                          <span>{{ property.floor }}</span>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="title-box-d section-t4">
+                        <a class="btn btn-success contact-button">View Contact</a>
+
+                        <!-- Popup container -->
+                        <div id="contact-popup" class="popup">
+                          <div class="popup-content">
+                            <span class="close-btn" onclick="closePopup()">&times;</span>
+                            <h2>Contact Details</h2>
+                            <!-- Add contact details here -->
+                            <center>
+                            <div class="form-group col-md-6 pd-20">
+                              <label class="mt-2 mb-1">Pin Code</label>
+                              <input type="text" id="pincode" name="pin_code" class="form-control" value="{{ property.owner_name }}">
+                              <span id="pincode-error"></span>
+                          </div>
+                          <div class="form-group col-md-6 pd-20">
+                            <label class="mt-2 mb-1">Pin Code</label>
+                            <input type="text" id="pincode" name="pin_code" class="form-control" value="{{ property.whatsapp_no }}">
+                            <span id="pincode-error"></span>
+                        </div>
+                        <div class="form-group col-md-6 pd-20">
+                          <label class="mt-2 mb-1">Pin Code</label>
+                          <input type="text" id="pincode" name="pin_code" class="form-control" value="{{ user.email }}">
+                          <span id="pincode-error"></span>
+                      </div>
+                    </center>
+                    <a href="{% url 'viewcontact' property.id %}?property_id={{ property.id }}" ><button class="btn btn-success">Get Details</button></a>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7 col-lg-7 section-md-t3">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="title-box-d">
+                      <h3 class="title-d"  style="margin-top: 60px;">Property Description</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="property-description">
+                  <p class="description color-text-a">
+                    {{property.description}}
+                  </p>
+                </div>
+                <div class="row section-t3">
+                  <div class="col-sm-12">
+                    <div class="title-box-d">
+                      <h3 class="title-d">Features</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="amenities-list color-text-a">
+                  <ul class="list-a no-margin">
+                    {% for feature in features %}
+                    <li>{{ feature }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="row section-t3">
+                  <div class="col-sm-12">
+                    <div class="title-box-d">
+                      <h3 class="title-d">Nearby Places and Services</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="amenities-list color-text-a">
+                  <ul class="list-a no-margin">
+                    {% for place in nearby_place %}
+                    <li>{{ place }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-10 offset-md-1">
+            <ul class="nav nav-pills-a nav-pills mb-3 section-t3" id="pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="pills-video-tab" data-bs-toggle="pill" href="#pills-video" role="tab" aria-controls="pills-video" aria-selected="true">Video</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-plans-tab" data-bs-toggle="pill" href="#pills-plans" role="tab" aria-controls="pills-plans" aria-selected="false">Floor Plans</a>
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link" id="pills-map-tab" data-bs-toggle="pill" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="false">Ubication</a>
+              </li> -->
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+              <div class="tab-pane fade show active" id="pills-video" role="tabpanel" aria-labelledby="pills-video-tab">
+                {% if property.video %}
+                  <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" width="500" height="460" data-setup='{}'>
+                  <source src="{{ property.video.url }}" type="video/mp4">
+                  </video>
+                {% else %}
+                  <p>No video available for this property.</p>
+                {% endif %}
+              </div>
+
+              <div class="tab-pane fade" id="pills-plans" role="tabpanel" aria-labelledby="pills-plans-tab">
+                {% if property.floor_plan %}
+                  <img src="{{ property.floor_plan.url }}" alt="" class="img-fluid">
+                {% else %}
+                  <p>No Floor Plan available for this property.</p>
+                {% endif %}
+              </div>
+              <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes+Square!5e0!3m2!1ses-419!2sve!4v1510329142834" width="100%" height="460" frameborder="0" style="border:0" allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row section-t3">
+              <div class="col-sm-12">
+                <div class="title-box-d">
+                  <h3 class="title-d">Comments</h3>
+                </div>
+              </div>
+            </div>
+
+
+            {% if feedbacks %}
+            <!-- Loop through each feedback for the property -->
+            {% for feedback in feedbacks %}
+                <div class="row mt-1">
+                    <div class="container text-dark">
+                        <div class="row d-flex justify-content-center">
+                            <div class="card mt-1">
+                                <div class="card-body">
+                                    <div class="d-flex flex-start">
+                                        <!-- Check if the user profile has a profile picture -->
+                                        {% if feedback.userprofile.profile_pic %}
+                                            <img class="rounded-circle shadow-1-strong me-3"
+                                                src="{{ feedback.userprofile.profile_pic.url }}"
+                                                alt="avatar" width="40" height="40" />
+                                        {% else %}
+                                            <!-- Display a default image if no profile picture is available -->
+                                            <img class="rounded-circle shadow-1-strong me-3"
+                                                src="{% static 'assets/img/pro_pic.png' %}"
+                                                alt="avatar" width="40" height="40" />
+                                        {% endif %}
+                                        <div class="w-100">
+                                          <div class="d-flex justify-content-between align-items-center ">
+                                            <h6 class="text-success fw-bold mb-10">
+                                                @{{ feedback.userprofile.user.username }}
+                                              </h6>
+                                            <p class="">{{ feedback.comment_date|date:"F d, Y" }}</p>
+                                        </div>
+                                        <span class=" mt-5 " style="margin-left: 40px;">{{ feedback.message }}</span>
+                                        {% comment %} <button class="btn btn-link btn-sm" id="like-btn-{{ feedback.id }}"
+                                        onclick="likeFeedback({{ feedback.id }})">
+                                    <i class="fa fa-heart {% if user in feedback.likes.all %}text-danger{% endif %}" aria-hidden="true"></i>
+                                    <span id="likes-count-{{ feedback.id }}">{{ feedback.likes.count }}</span>
+                                </button>
+                                         {% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <!-- If no feedback for this property, display a message -->
+            <p>No comments for this property.</p>
+        {% endif %}
+              </div>
+
+
+            <div class="col-md-30">
+              <div class="row section-t3">
+                <div class="col-sm-12">
+                  <div class="title-box-d">
+                    <h3 class="title-d">Post Comments</h3>
+                  </div>
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-md-12 col-lg-12">
+                  <div class="property-contact">
+                      <form class="form-a" onsubmit="return checkAll();" method="post" action="{% url 'submit_comment' %}">
+                        {% csrf_token %}
+                          <div class="row">
+                              <div class="col-md-12 mb-1">
+                                  <div class="form-group">
+                                      <input type="text" class="form-control form-control-lg form-control-a" name="first_name" id="first_name" placeholder="Name *" required>
+                                      <div class="invalid-feedback" id="first_name_feedback"></div>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 mb-1">
+                                  <div class="form-group">
+                                      <input type="email" class="form-control form-control-lg form-control-a" name="email" id="email" placeholder="Email *" required>
+                                      <div class="invalid-feedback" id="email_feedback"></div>
+                                  </div>
+                              </div>
+                              <input type="hidden" name="property_id" value="{{ property.id }}">
+                              <div class="col-md-12 mb-1">
+                                  <div class="form-group">
+                                      <textarea id="textMessage" class="form-control" placeholder="Comment *" name="message" cols="45" rows="8" required></textarea>
+                                      <div class="invalid-feedback" id="textMessage_feedback"></div>
+                                  </div>
+                              </div>
+                              <input type="hidden" name="property_id" value="{{ property.id }}">
+                              <div class="col-md-12 mt-3">
+                                  <button type="submit" class="btn btn-a">Post</button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Property Single-->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <section class="section-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">FindMyNest</h3>
+            </div>
+            <div class="w-body-a">
+              <p class="w-text-a color-text-a">
+                FindMyNest is an innovative online platform designed to simplify the process of property management and real estate transactions. 
+                  This digital solution aims to provide users with the convenience of searching for, viewing, and booking properties from the comfort of their own space. 
+                  With a user-friendly interface, FindMyNest allows clients to explore a wide range of properties, 
+                  from residences to offices, and even assists in property-related services like home shifting and home loans.
+              </p>
+            </div>
+            <div class="w-footer-a">
+              <ul class="list-unstyled">
+                <li class="color-a">
+                  <span class="color-text-a">Phone .</span> +91 8113825461
+                </li>
+                <li class="color-a">
+                  <span class="color-text-a">Email .</span> findmynest@gmail.com
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 section-md-t3">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">The Company</h3>
+            </div>
+            <div class="w-body-a">
+              <div class="w-body-a">
+                <ul class="list-unstyled">
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Site Map</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Legal</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Agent Admin</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Careers</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Affiliate</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="bi bi-chevron-right"></i> <a href="#">Privacy Policy</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 section-md-t3">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">International sites</h3>
+            </div>
+            <div class="w-body-a">
+              <ul class="list-unstyled">
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Venezuela</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">China</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Hong Kong</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Argentina</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Singapore</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="bi bi-chevron-right"></i> <a href="#">Philippines</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <nav class="nav-footer">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#">Home</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">About</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Property</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Blog</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="socials-a">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="bi bi-facebook" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="bi bi-twitter" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="bi bi-instagram" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="bi bi-linkedin" aria-hidden="true"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="copyright-footer">
+            <p class="copyright color-text-a">
+              &copy; Copyright
+              <span class="color-a">FindMyNest</span> All Rights Reserved.
+            </p>
+          </div>
+          <div class="credits">
+            <!--
+            All the links in the footer should remain intact.
+            You can delete the links only if you purchased the pro version.
+            Licensing information: https://bootstrapmade.com/license/
+            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=EstateAgency
+          -->
+            <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+  <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+<script src="https://vjs.zencdn.net/7.15.4/video.js"></script>
+<script>
+  // Initialize Video.js on the video element with an ID of "videoPlayer"
+  var player = videojs('videoPlayer');
+</script>
+<script>
+  function validateField(inputElement, pattern, feedbackElement) {
+      const value = inputElement.value.trim();
+      if (!pattern.test(value)) {
+          inputElement.classList.add('is-invalid');
+          inputElement.classList.remove('is-valid');
+          feedbackElement.textContent = `Please enter a valid ${inputElement.getAttribute('id')}.`;
+          return false;
+      } else {
+          inputElement.classList.remove('is-invalid');
+          inputElement.classList.add('is-valid');
+          feedbackElement.textContent = '';
+          return true;
+      }
+  }
+
+  function validateEmail() {
+      const emailInput = document.getElementById('email');
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return validateField(emailInput, emailPattern, document.getElementById('email_feedback'));
+  }
+
+  function validateFirst_Name() {
+      const firstNameInput = document.getElementById('first_name');
+      const namePattern = /^[A-Za-z ]+$/;
+      return validateField(firstNameInput, namePattern, document.getElementById('first_name_feedback'));
+  }
+
+  function validateTextMessage() {
+      const textMessageInput = document.getElementById('textMessage');
+      const messagePattern = /^.{1,255}$/; // Adjust the pattern as needed
+      return validateField(textMessageInput, messagePattern, document.getElementById('textMessage_feedback'));
+  }
+
+  function checkAll() {
+      const isFirstNameValid = validateFirst_Name();
+      const isEmailValid = validateEmail();
+      const isTextMessageValid = validateTextMessage();
+
+      // Check if all fields are valid
+      if (isFirstNameValid && isEmailValid && isTextMessageValid) {
+          return true; // Allow form submission
+      } else {
+          return false; // Prevent form submission
+      }
+  }
+</script>
+
+<script>
+  // Function to open the popup
+function openPopup() {
+  document.getElementById('contact-popup').style.display = 'block';
+}
+
+// Function to close the popup
+function closePopup() {
+  document.getElementById('contact-popup').style.display = 'none';
+}
+
+// Attach a click event listener to the "View Contact" button
+document.querySelector('.contact-button').addEventListener('click', openPopup);
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% comment %} <script>
+  function likeFeedback(feedbackId, csrfToken) {
+      // Send an AJAX request to like/unlike the feedback
+      $.ajax({
+          url: "{% url 'like_feedback' %}",
+          type: "POST",
+          data: {
+              'feedback_id': feedbackId,
+              'csrfmiddlewaretoken': csrfToken
+          },
+          success: function (data) {
+              if (data.liked) {
+                  // User liked the feedback, update the heart icon and likes count
+                  $('#like-btn-' + feedbackId + ' i').addClass('text-danger');
+              } else {
+                  // User unliked the feedback, update the heart icon and likes count
+                  $('#like-btn-' + feedbackId + ' i').removeClass('text-danger');
+              }
+              $('#likes-count-' + feedbackId).text(data.likes_count);
+          },
+          error: function () {
+              alert("An error occurred while processing your request.");
+          }
+      });
+  }
+</script> {% endcomment %}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const alertType = urlParams.get('alert');
+
+      if (alertType === 'Details_Emailed') {
+          <!-- showAlert('Details Emailed', 'success'); -->
+      } 
+      
+      function showAlert(message, alertType) {
+          const alertDiv = document.createElement('div');
+          alertDiv.classList.add('alert', `alert-${alertType}`, 'alert-top');
+          alertDiv.textContent = message;
+
+          const container = document.querySelector('.container');
+          container.insertBefore(alertDiv, container.firstChild);
+
+          setTimeout(function() {
+              alertDiv.remove();
+          }, 5000);  // Remove after 5 seconds
+      }
+  });
+</script>
+
+
+</body>
+
+</html>
